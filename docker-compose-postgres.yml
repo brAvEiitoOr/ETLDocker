@@ -1,0 +1,73 @@
+services:
+  postgresqlmain:
+    image: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - 'postgresql_master_data:/bitnami/postgresql'
+    networks:
+      - postgres-network-replica
+      - etl-network
+    environment:
+      - POSTGRESQL_PGAUDIT_LOG=READ,WRITE
+      - POSTGRESQL_LOG_HOSTNAME=true
+      - POSTGRESQL_REPLICATION_MODE=master
+      - POSTGRESQL_REPLICATION_USER=repl_user
+      - POSTGRESQL_REPLICATION_PASSWORD=edwinbra
+      - POSTGRESQL_USERNAME=postgres
+      - POSTGRESQL_DATABASE=my_database
+      - ALLOW_EMPTY_PASSWORD=yes
+  
+  postgresqlreplica1:
+    image: postgres
+    ports:
+      - '5433:5432'
+    depends_on:
+      - postgresql-master
+    networks:
+      - postgres-network-replica
+    volumes:
+      - 'postgresql_master_data:/bitnami/postgresql'
+    environment:
+      - POSTGRESQL_USERNAME=postgres
+      - POSTGRESQL_PASSWORD=edwinbra
+      - POSTGRESQL_MASTER_HOST=postgresqlmain
+      - POSTGRESQL_PGAUDIT_LOG=READ,WRITE
+      - POSTGRESQL_LOG_HOSTNAME=true
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_REPLICATION_USER=repl_user
+      - POSTGRESQL_REPLICATION_PASSWORD=edwinbra
+      - POSTGRESQL_MASTER_PORT_NUMBER=5432
+
+  postgresqlreplica2:
+    image: postgres
+    ports:
+      - '5434:5432'
+    depends_on:
+      - postgresql-master
+    networks:
+      - postgres-network-replica
+    volumes:
+      - 'postgresql_master_data:/bitnami/postgresql'
+    environment:
+      - POSTGRESQL_USERNAME=postgres
+      - POSTGRESQL_PASSWORD=edwinbra
+      - POSTGRESQL_MASTER_HOST=postgresqlmain
+      - POSTGRESQL_PGAUDIT_LOG=READ,WRITE
+      - POSTGRESQL_LOG_HOSTNAME=true
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_REPLICATION_USER=repl_user
+      - POSTGRESQL_REPLICATION_PASSWORD=edwinbra
+      - POSTGRESQL_MASTER_PORT_NUMBER=5432
+
+volumes:
+  postgresqlmain_data:
+  postgresqlreplica1_data:
+  postgresqlreplica2_data:
+
+networks:
+  postgres-network-replica:
+    driver: bridge
+  etl-network:
+    external:
+      name: etl-network

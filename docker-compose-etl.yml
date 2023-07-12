@@ -1,0 +1,28 @@
+services:
+  etl-container:
+    container_name: etl-container
+    volumes:
+      - ./etl:/app
+    networks:
+      - etl-network
+    build:
+      context: etl
+      dockerfile: Dockerfile
+
+  crud-container:
+    container_name: crud-container
+    volumes:
+      - ./crud:/app
+    networks:
+      - etl-network
+    build:
+      context: crud
+      dockerfile: Dockerfile
+
+
+networks:
+  etl-network:
+    external:
+      name: etl-network
+
+      
