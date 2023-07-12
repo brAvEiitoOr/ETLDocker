@@ -4,7 +4,7 @@ services:
     container_name: router1
     image: mongo
     volumes:
-      - ./scripts:/scripts
+      - ./scripts/main:/scripts
     networks:
       - mongo-network-sharded
       - etl-network
@@ -16,7 +16,7 @@ services:
     container_name: configsvr1 
     image: mongo
     volumes:
-      - ./scripts:/scripts
+      - ./scripts/main:/scripts
     networks:
       - mongo-network-sharded
     ports:
@@ -30,7 +30,7 @@ services:
     container_name: mongo-shard1a
     image: mongo
     volumes:
-      - ./scripts:/scripts
+      - ./scripts/main:/scripts
     networks:
       - mongo-network-sharded
     ports:
@@ -59,7 +59,7 @@ services:
     container_name: mongo-shard2a
     image: mongo
     volumes:
-      - ./scripts:/scripts
+      - ./scripts/main:/scripts
     networks:
       - mongo-network-sharded
     ports:
@@ -88,7 +88,7 @@ services:
     container_name: mongo-shard3a
     image: mongo
     volumes:
-      - ./scripts:/scripts
+      - ./scripts/main:/scripts
     networks:
       - mongo-network-sharded
     ports:

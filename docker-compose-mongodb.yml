@@ -3,8 +3,7 @@ services:
     container_name: mongoreplica1
     image: mongo
     volumes:
-      - ./rs-init.sh:/scripts/rs-init.sh
-      - ./init.js:/scripts/init.js
+      - ./scripts/secondary:/scripts
     networks:
       - mongo-network-replica
       - etl-network
