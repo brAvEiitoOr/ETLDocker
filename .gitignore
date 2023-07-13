@@ -1,0 +1,35 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/crud/node_modules
+/crud/.pnp
+/crud/.pnp.js
+
+# testing
+/crud/coverage
+
+# next.js
+/crud/.next/
+/crud/out/
+
+# production
+/crud/build
+
+# misc
+/crud/.DS_Store
+/crud/*.pem
+
+# debug
+/crud/npm-debug.log*
+/crud/yarn-debug.log*
+/crud/yarn-error.log*
+
+# local env files
+/crud/.env*.local
+
+# vercel
+/crud/.vercel
+
+# typescript
+/crud/*.tsbuildinfo
+/crud/next-env.d.ts
