@@ -4,9 +4,9 @@ Dockered ETL Pipeline with Python, MongoDB and PostgresSQL
 ## MongoDB Main sharded replicaset
 Replicaset where the raw data from the CRUD will be stored
 
-### Start the main MongoDB sharded replicaset
+### Start the containers
 ```sh
-docker compose --file docker-compose-main-sharded-replica.yml up -d
+docker compose up -d
 ```
 
 ### Configure the servers
@@ -24,26 +24,16 @@ docker exec -it router1 mongosh
 ```
 ```js
 use Proyecto
-db.createCollection("Imports")
+db.createCollection("Trades")
 sh.enableSharding("Proyecto")
-sh.shardCollection("Proyecto.Imports", {"_id": "hashed"})
+sh.shardCollection("Proyecto.Trades", {"_id": "hashed"})
 ```
+Main database will be avaiable on port `27117`
+Secondary database will be available on port `27217`
+CRUD will be available on port `3000`
 
-## MongoDB secondary replicaset
-Replicaset where the data procesed by the ETL is stored
 
-### Start the secondary MongoDB replicaset
+### Configure the secondary MongoDB replicaset
 ```sh
-docker compose --file docker-compose-mongodb.yml up -d
 docker exec mongoreplica1 sh /scripts/rs-init.sh
-```
-
-## PostgresSQL secondary replicaset
-```sh
-docker compose --file docker-compose-postgres.yml up -d
-```
-
-## ETL and CRUD 
-```sh
-docker compose --file docker-compose-etl.yml up -d
 ```
