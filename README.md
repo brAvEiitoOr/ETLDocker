@@ -24,9 +24,9 @@ docker exec -it router1 mongosh
 ```
 ```js
 use Proyecto
-db.createCollection("Trades")
+db.createCollection("trades")
 sh.enableSharding("Proyecto")
-sh.shardCollection("Proyecto.Trades", {"_id": "hashed"})
+sh.shardCollection("Proyecto.trades", {"_id": "hashed"})
 ```
 Main database will be avaiable on port `27117`
 Secondary database will be available on port `27217`
